@@ -1,15 +1,14 @@
 from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ValidationError
-from django.db.models.fields import return_None
 
 
 class UserManager(BaseUserManager):
 
-    def _create_user(self,email,password=None,**extrafields):
+    def _create_user(self,email,password=None,**extra_fields):
         if not email:
             raise ValidationError("Invalid! credentials")
         self.normalize_email(email)
-        user = self.model(email=email,**extrafields)
+        user = self.model(email=email,**extra_fields)
         user.set_password(raw_password=password)
         user.save(using=self.db)
         return user
