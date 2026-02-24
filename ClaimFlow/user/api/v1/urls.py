@@ -10,6 +10,5 @@ routers.register("users", UserViewSet, basename="user")
 
 urlpatterns = [
     path("",include(routers.urls)),
-    path("jwt/refresh/",TokenRefreshView.as_view()),
 
 ]
