@@ -31,15 +31,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
 class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField(max_length=255,validators=[EmailValidator])
+    email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=255)
+
+
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
+
     def validate(self, attrs):
-        self.token = attrs['refresh']
+        self.token = attrs["refresh"]
         return attrs
+
     def save(self, **kwargs):
         try:
             token = RefreshToken(self.token)
@@ -71,16 +77,3 @@ class RefreshSerializer(serializers.Serializer):
         except TokenError:
             raise serializers.ValidationError("Invalid or blacklisted token")
 
-
-class MeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "email",
-            "first_name",
-            "last_name",
-            "created_at",
-            "updated_at",
-        ]
-        read_only_fields = ["id", "email", "created_at", "updated_at"]

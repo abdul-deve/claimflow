@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
-from user.api.v1.serializer.user import (UserRegisterSerializer,
-                                         LoginSerializer,
-                                         LogoutSerializer,
-                                         RefreshSerializer,MeSerializer)
+from user.api.v1.serializer import (UserRegisterSerializer,
+                                              LoginSerializer,
+                                              LogoutSerializer,
+                                              RefreshSerializer,
+                                              MeSerializer)
 from django.contrib.auth import authenticate,logout
 from rest_framework.decorators import  action
 from rest_framework import status
@@ -117,49 +118,6 @@ class AuthViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK
         )
     
-
-
-class UserViewSet(viewsets.ViewSet):
-    queryset = User.objects.all()
-    authentication_classes = []
-    permission_classes = []
-
-    def get_serializer_class(self):
-        if self.action == "me":
-            return MeSerializer
-
-    @action(
-        methods=["get", "put", "patch"],
-        detail=False,
-        url_path="me",
-        authentication_classes=[JWTAuthentication],
-        permission_classes=[permissions.IsAuthenticated]
-    )
-    def me(self, request):
-        if request.method == "GET":
-            serializer = MeSerializer(request.user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        if request.method == "PUT":
-            serializer = MeSerializer(
-                request.user,
-                data=request.data,
-                partial=False
-            )
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-        if request.method == "PATCH":
-            serializer = MeSerializer(
-                request.user,
-                data=request.data,
-                partial=True
-            )
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

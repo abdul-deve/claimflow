@@ -137,13 +137,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-DJOSER = {
-    "LOGIN_FIELD": "email",
-    "USER_CREATE_PASSWORD_RETYPE": True,
-    "SEND_ACTIVATION_EMAIL": True,
-    "PASSWORD_RESET_CONFIRM_URL" : "api/auth/users/reset_password_confirm/",
-    "ACTIVATION_URL": "activate/{uid}/{token}",
-}
 
 
 EMAIL_HOST = "smtp.gmail.com"

@@ -6,8 +6,8 @@ User = get_user_model()
 
 class Organization(TimeStamp):
     name = models.CharField(max_length=255,unique=True,db_index=True)
-    description = models.TextField()
-    admin = models.ForeignKey(User,on_delete=models.CASCADE,related_name="organizations")
+    admin = models.OneToOneField(User,on_delete=models.PROTECT,related_name="organizations",editable=False)
+    description = models.TextField(null=True)
 
     def __str__(self):
         return f"Name: {self.name} Admin: {self.admin}"
@@ -15,7 +15,6 @@ class Organization(TimeStamp):
     class Meta:
         verbose_name = "Organization"
         verbose_name_plural = "Organizations"
-        unique_together = ("name", "admin")
 
 class Practice(TimeStamp):
     name = models.CharField(max_length=255,unique=True,db_index=True)
