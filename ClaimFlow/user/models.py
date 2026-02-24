@@ -14,7 +14,15 @@ class User(AbstractUser,TimeStamp):
     def __str__(self):
         return f"ID:{self.id}email : {self.email}"
 
-
+    def data (self):
+        user = {
+            "id": self.id,
+            "first_name" : self.first_name,
+            "last_name" : self.last_name,
+            "username" : self.username,
+            "email" : self.email,
+        }
+        return user
 
 class Roles(TimeStamp):
     roles_choices = [
